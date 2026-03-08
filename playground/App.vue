@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { StarTrailsGL } from '../src/index'
+import { Polygons } from '../src/index'
 </script>
 
 <template>
   <div class="playground">
-    <StarTrailsGL debug />
+    <Polygons debug />
   </div>
 </template>
 

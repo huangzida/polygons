@@ -1,0 +1,54 @@
+{
+  "title": "调试面板",
+  "tabs": {
+    "core": "核心",
+    "style": "样式",
+    "animation": "动画"
+  },
+  "labels": {
+    "sides": "边数",
+    "count": "数量",
+    "rotationSpeed": "旋转速度",
+    "rotationIncrement": "旋转增量",
+    "colorMode": "颜色模式",
+    "color": "主颜色",
+    "lineOpacity": "线条透明度",
+    "glowIntensity": "发光强度",
+    "antialias": "抗锯齿",
+    "scale": "缩放",
+    "spacing": "间距",
+    "innerRadius": "内半径",
+    "outerRadius": "外半径",
+    "rotationDirection": "旋转方向",
+    "animateScale": "缩放动画",
+    "scaleSpeed": "缩放速度",
+    "pulseFrequency": "脉冲频率",
+    "revealMode": "显示模式",
+    "revealSpeed": "显示速度",
+    "wireframe": "线框",
+    "fill": "填充",
+    "fillOpacity": "填充透明度",
+    "backgroundColor": "背景颜色",
+    "backgroundOpacity": "背景透明度"
+  },
+  "styles": {
+    "single": "单色", "gradient": "渐变", "hslCycle": "HSL循环", "rainbow": "彩虹"
+  },
+  "directions": {
+    "inward": "向内",
+    "outward": "向外",
+    "alternating": "交替"
+  },
+  "revealModes": {
+    "none": "无",
+    "centerOut": "从中心向外",
+    "centerIn": "从外向中心",
+    "sequential": "依次显示"
+  },
+  "modes": {
+    "single": "单色模式",
+    "gradient": "渐变模式",
+    "hslCycle": "HSL循环模式",
+    "rainbow": "彩虹模式"
+  }
+}

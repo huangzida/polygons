@@ -1,26 +1,26 @@
 {
-  "name": "@bg-effects/fireworks",
-  "version": "1.0.0",
+  "name": "@bg-effects/polygons",
+  "version": "1.0.2",
   "type": "module",
   "packageManager": "pnpm@10.25.0",
-  "description": "Star Trails GL Effect - A high-performance star trails background effect built with OGL and Vue.",
+  "description": "Polygons background effect built with OGL and Vue.",
   "author": "huangzida",
   "license": "MIT",
   "keywords": [
-    "star-trails",
+    "polygons",
     "webgl",
     "ogl",
     "vue",
     "background-effect",
     "animation"
   ],
-  "homepage": "https://github.com/huangzida/fireworks#readme",
+  "homepage": "https://github.com/huangzida/polygons#readme",
   "bugs": {
-    "url": "https://github.com/huangzida/fireworks/issues"
+    "url": "https://github.com/huangzida/polygons/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huangzida/fireworks.git"
+    "url": "git+https://github.com/huangzida/polygons.git"
   },
   "sideEffects": [
     "**/*.css"

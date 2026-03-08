@@ -1,0 +1,54 @@
+{
+  "title": "Debug Panel",
+  "tabs": { 
+    "core": "Core", 
+    "style": "Style", 
+    "animation": "Animation" 
+  },
+  "labels": { 
+    "sides": "Sides", 
+    "count": "Count",
+    "rotationSpeed": "Rotation Speed",
+    "rotationIncrement": "Rotation Increment", 
+    "colorMode": "Color Mode", 
+    "color": "Primary Color",
+    "lineOpacity": "Line Opacity",
+    "glowIntensity": "Glow Intensity",
+    "antialias": "Antialias",
+    "scale": "Scale",
+    "spacing": "Spacing",
+    "innerRadius": "Inner Radius",
+    "outerRadius": "Outer Radius",
+    "rotationDirection": "Rotation Direction",
+    "animateScale": "Animate Scale",
+    "scaleSpeed": "Scale Speed",
+    "pulseFrequency": "Pulse Frequency",
+    "revealMode": "Reveal Mode",
+    "revealSpeed": "Reveal Speed",
+    "wireframe": "Wireframe",
+    "fill": "Fill",
+    "fillOpacity": "Fill Opacity",
+    "backgroundColor": "Background Color",
+    "backgroundOpacity": "Background Opacity"
+  },
+  "styles": {
+    "single": "Single", "gradient": "Gradient", "hslCycle": "HSL Cycle", "rainbow": "Rainbow"
+  },
+  "directions": {
+    "inward": "Inward",
+    "outward": "Outward",
+    "alternating": "Alternating"
+  },
+  "revealModes": {
+    "none": "None",
+    "centerOut": "Center Out",
+    "centerIn": "Center In",
+    "sequential": "Sequential"
+  },
+  "modes": { 
+    "single": "Single Color", 
+    "gradient": "Gradient", 
+    "hslCycle": "HSL Cycle",
+    "rainbow": "Rainbow"
+  }
+}
