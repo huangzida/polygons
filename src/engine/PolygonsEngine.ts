@@ -195,14 +195,16 @@ export class PolygonsEngine {
         case 'gradient':
           color = lerpColor(COLOR_PALETTE[0], COLOR_PALETTE[COLOR_PALETTE.length - 1], t)
           break
-        case 'hslCycle':
+        case 'hslCycle': {
           const hue = (t * 360 + i * 30) % 360
           color = setHSLColor(color, hue / 360, 0.8, 0.6)
           break
-        case 'rainbow':
+        }
+        case 'rainbow': {
           const hue2 = (i * 360 / this.instanceCount) % 360
           color = setHSLColor(color, hue2 / 360, 1.0, 0.7)
           break
+        }
         default: // single
           color = new Color(this.config.color)
       }
@@ -303,14 +305,16 @@ export class PolygonsEngine {
           case 'gradient':
             color = lerpColor(COLOR_PALETTE[0], COLOR_PALETTE[COLOR_PALETTE.length - 1], t)
             break
-          case 'hslCycle':
+          case 'hslCycle': {
             const hue = (t * 360 + i * 30) % 360
             color = setHSLColor(color, hue / 360, 0.8, 0.6)
             break
-          case 'rainbow':
+          }
+          case 'rainbow': {
             const hue2 = (i * 360 / this.instanceCount) % 360
             color = setHSLColor(color, hue2 / 360, 1.0, 0.7)
             break
+          }
           default: // single
             color = new Color(this.config.color)
         }
@@ -335,14 +339,16 @@ export class PolygonsEngine {
           case 'gradient':
             color = lerpColor(COLOR_PALETTE[0], COLOR_PALETTE[COLOR_PALETTE.length - 1], t)
             break
-          case 'hslCycle':
+          case 'hslCycle': {
             const hue = (t * 360 + i * 30) % 360
             color = setHSLColor(color, hue / 360, 0.8, 0.6)
             break
-          case 'rainbow':
+          }
+          case 'rainbow': {
             const hue2 = (i * 360 / this.instanceCount) % 360
             color = setHSLColor(color, hue2 / 360, 1.0, 0.7)
             break
+          }
           default: // single
             color = new Color(this.config.color)
         }

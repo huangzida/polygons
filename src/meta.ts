@@ -1,4 +1,4 @@
-import { rand, generateRandomPalette } from '@bg-effects/shared'
+import { rand } from '@bg-effects/shared'
 import type { EffectMeta } from '@bg-effects/core'
 import type { PolygonsProps } from './types'
 

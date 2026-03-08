@@ -11,7 +11,7 @@ const props = defineProps<PolygonsProps & {
   lang?: 'zh-CN' | 'en'
 }>()
 
-const emit = defineEmits(['update:sides', 'update:count', 'update:rotationSpeed', 'update:rotationIncrement', 'update:colorMode', 'update:color'])
+defineEmits(['update:sides', 'update:count', 'update:rotationSpeed', 'update:rotationIncrement', 'update:colorMode', 'update:color'])
 
 // 动态调试配置面板内部组件
 const ConfigContent = defineAsyncComponent(() => import('./ui/ConfigPanel.vue'))

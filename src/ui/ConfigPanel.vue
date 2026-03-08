@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import zhCN from '../locales/zh-CN.json'
-import en from '../locales/en.json'
+import { ref, computed, watch, reactive } from 'vue'
+import * as zhCN from '../locales/zh-CN.json'
+import * as en from '../locales/en.json'
 import { ButtonGroup, SubTabs } from '@bg-effects/shared'
 
 const props = defineProps<{
@@ -9,7 +9,22 @@ const props = defineProps<{
   lang?: 'zh-CN' | 'en'
 }>()
 
+const emit = defineEmits(['update:config'])
+
 const activeTab = ref('core')
+
+// Use a local reactive copy to avoid mutating props directly and satisfy ESLint
+const localConfig = reactive({ ...props.config })
+
+// Sync prop changes to local state
+watch(() => props.config, (newVal) => {
+  Object.assign(localConfig, newVal)
+}, { deep: true })
+
+// Sync local changes back to parent
+watch(localConfig, (newVal) => {
+  emit('update:config', { ...newVal })
+}, { deep: true })
 
 // 暴露activeTab供父组件使用
 defineExpose({
@@ -59,10 +74,10 @@ const subTabs = computed((): SubTabItem[] => [
           <div class="flex justify-between items-center px-1">
             <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 group-hover/item:text-white/40 transition-colors">{{ t(`labels.${prop.label}`) }}</label>
             <span class="text-[11px] font-black font-mono text-white/40 group-hover/item:text-blue-400 transition-colors">
-              {{ typeof config[prop.id] === 'number' ? config[prop.id].toFixed(prop.step < 1 ? 2 : 0) : config[prop.id] }}
+              {{ typeof localConfig[prop.id] === 'number' ? localConfig[prop.id].toFixed(prop.step < 1 ? 2 : 0) : localConfig[prop.id] }}
             </span>
           </div>
-          <input v-model.number="config[prop.id]" type="range" :min="prop.min" :max="prop.max" :step="prop.step" class="w-full accent-blue-500 bg-white/5 hover:bg-white/10 h-1.5 rounded-full appearance-none cursor-pointer transition-all border border-white/5">
+          <input v-model.number="localConfig[prop.id]" type="range" :min="prop.min" :max="prop.max" :step="prop.step" class="w-full accent-blue-500 bg-white/5 hover:bg-white/10 h-1.5 rounded-full appearance-none cursor-pointer transition-all border border-white/5">
         </div>
       </div>
       
@@ -75,20 +90,20 @@ const subTabs = computed((): SubTabItem[] => [
               v-for="m in ['single', 'gradient', 'hslCycle', 'rainbow']"
               :key="m"
               class="py-2.5 text-[9px] font-bold border rounded-lg transition-all shadow-sm cursor-pointer"
-              :class="config.colorMode === m ? 'bg-blue-600 text-white border-blue-400/50 ring-1 ring-blue-400/30' : 'bg-white/[0.03] text-white/25 border-white/5 hover:bg-white/10 hover:text-white/60'"
-              @click="config.colorMode = m"
+              :class="localConfig.colorMode === m ? 'bg-blue-600 text-white border-blue-400/50 ring-1 ring-blue-400/30' : 'bg-white/[0.03] text-white/25 border-white/5 hover:bg-white/10 hover:text-white/60'"
+              @click="localConfig.colorMode = m"
             >
               {{ t(`styles.${m}`) }}
             </button>
           </div>
         </div>
-        <div v-if="config.colorMode === 'single'" class="flex flex-col gap-3 group/item bg-white/[0.02] p-4 rounded-xl border border-white/5 shadow-inner">
+        <div v-if="localConfig.colorMode === 'single'" class="flex flex-col gap-3 group/item bg-white/[0.02] p-4 rounded-xl border border-white/5 shadow-inner">
           <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">{{ t('labels.color') }}</label>
           <div class="flex gap-4 items-center">
             <div class="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 shadow-lg">
-              <input v-model="config.color" type="color" class="absolute inset-0 w-[150%] h-[150%] -translate-x-1/4 -translate-y-1/4 cursor-pointer scale-125">
+              <input v-model="localConfig.color" type="color" class="absolute inset-0 w-[150%] h-[150%] -translate-x-1/4 -translate-y-1/4 cursor-pointer scale-125">
             </div>
-            <span class="text-xs font-mono font-bold text-white/40 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">{{ config.color }}</span>
+            <span class="text-xs font-mono font-bold text-white/40 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">{{ localConfig.color }}</span>
           </div>
         </div>
         <div v-for="prop in [
@@ -99,13 +114,13 @@ const subTabs = computed((): SubTabItem[] => [
           <div class="flex justify-between items-center px-1">
             <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 group-hover/item:text-white/40 transition-colors">{{ t(`labels.${prop.label}`) }}</label>
             <span class="text-[11px] font-black font-mono text-white/40 group-hover/item:text-blue-400 transition-colors">
-              {{ (config[prop.id] ?? 1).toFixed(prop.id === 'lineOpacity' ? 2 : 1) }}
+              {{ (localConfig[prop.id] ?? 1).toFixed(prop.id === 'lineOpacity' ? 2 : 1) }}
             </span>
           </div>
-          <input v-model.number="config[prop.id]" type="range" :min="prop.min" :max="prop.max" :step="prop.step" class="w-full accent-blue-500 bg-white/5 hover:bg-white/10 h-1.5 rounded-full appearance-none cursor-pointer transition-all border border-white/5">
+          <input v-model.number="localConfig[prop.id]" type="range" :min="prop.min" :max="prop.max" :step="prop.step" class="w-full accent-blue-500 bg-white/5 hover:bg-white/10 h-1.5 rounded-full appearance-none cursor-pointer transition-all border border-white/5">
         </div>
         <ButtonGroup
-          v-model="config.rotationDirection"
+          v-model="localConfig.rotationDirection"
           :options="[
             { value: 'inward', label: t('directions.inward') },
             { value: 'outward', label: t('directions.outward') },
@@ -116,18 +131,18 @@ const subTabs = computed((): SubTabItem[] => [
         />
         <div class="flex items-center justify-between">
           <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">{{ t('labels.wireframe') }}</label>
-          <input v-model="config.wireframe" type="checkbox" class="w-4 h-4 accent-blue-500">
+          <input v-model="localConfig.wireframe" type="checkbox" class="w-4 h-4 accent-blue-500">
         </div>
         <div class="flex items-center justify-between">
           <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">{{ t('labels.fill') }}</label>
-          <input v-model="config.fill" type="checkbox" class="w-4 h-4 accent-blue-500">
+          <input v-model="localConfig.fill" type="checkbox" class="w-4 h-4 accent-blue-500">
         </div>
-        <div v-if="config.fill" class="flex flex-col gap-3 group/item">
+        <div v-if="localConfig.fill" class="flex flex-col gap-3 group/item">
           <div class="flex justify-between items-center px-1">
             <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">{{ t('labels.fillOpacity') }}</label>
-            <span class="text-[11px] font-black font-mono text-white/40">{{ (config.fillOpacity ?? 0.2).toFixed(2) }}</span>
+            <span class="text-[11px] font-black font-mono text-white/40">{{ (localConfig.fillOpacity ?? 0.2).toFixed(2) }}</span>
           </div>
-          <input v-model.number="config.fillOpacity" type="range" min="0" max="1" step="0.05" class="w-full accent-blue-500 bg-white/5 h-1.5 rounded-full">
+          <input v-model.number="localConfig.fillOpacity" type="range" min="0" max="1" step="0.05" class="w-full accent-blue-500 bg-white/5 h-1.5 rounded-full">
         </div>
       </div>
 
@@ -144,13 +159,13 @@ const subTabs = computed((): SubTabItem[] => [
           <div class="flex justify-between items-center px-1">
             <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 group-hover/item:text-white/40 transition-colors">{{ t(`labels.${prop.label}`) }}</label>
             <span class="text-[11px] font-black font-mono text-white/40 group-hover/item:text-blue-400 transition-colors">
-              {{ (config[prop.id] ?? 0).toFixed(prop.id === 'rotationSpeed' || prop.id === 'pulseFrequency' || prop.id === 'revealSpeed' ? 1 : 0) }}
+              {{ (localConfig[prop.id] ?? 0).toFixed(prop.id === 'rotationSpeed' || prop.id === 'pulseFrequency' || prop.id === 'revealSpeed' ? 1 : 0) }}
             </span>
           </div>
-          <input v-model.number="config[prop.id]" type="range" :min="prop.min" :max="prop.max" :step="prop.step" class="w-full accent-blue-500 bg-white/5 hover:bg-white/10 h-1.5 rounded-full appearance-none cursor-pointer transition-all border border-white/5">
+          <input v-model.number="localConfig[prop.id]" type="range" :min="prop.min" :max="prop.max" :step="prop.step" class="w-full accent-blue-500 bg-white/5 hover:bg-white/10 h-1.5 rounded-full appearance-none cursor-pointer transition-all border border-white/5">
         </div>
         <ButtonGroup
-          v-model="config.revealMode"
+          v-model="localConfig.revealMode"
           :options="[
             { value: 'none', label: t('revealModes.none') },
             { value: 'centerOut', label: t('revealModes.centerOut') },
@@ -162,11 +177,11 @@ const subTabs = computed((): SubTabItem[] => [
         />
         <div class="flex items-center justify-between">
           <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">{{ t('labels.animateScale') }}</label>
-          <input v-model="config.animateScale" type="checkbox" class="w-4 h-4 accent-blue-500">
+          <input v-model="localConfig.animateScale" type="checkbox" class="w-4 h-4 accent-blue-500">
         </div>
         <div class="flex items-center justify-between">
           <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">{{ t('labels.antialias') }}</label>
-          <input v-model="config.antialias" type="checkbox" class="w-4 h-4 accent-blue-500">
+          <input v-model="localConfig.antialias" type="checkbox" class="w-4 h-4 accent-blue-500">
         </div>
       </div>
     </div>
